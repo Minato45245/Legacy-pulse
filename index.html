@@ -2,1060 +2,296 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Legacy Pulse — Liste de lancement</title>
+  <title>Legacy Pulse – Accès bêta prioritaire</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Legacy Pulse permet à tes proches de savoir quoi faire si tu disparais soudainement. Rejoins la liste pour accéder à la bêta." />
-
-  <!-- HTTPS ok (GitHub Pages) + best effort sécurité -->
-  <meta http-equiv="Referrer-Policy" content="no-referrer" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self';
-                 style-src 'self' 'unsafe-inline';
-                 img-src 'self' data:;
-                 script-src 'self' 'unsafe-inline';
-                 base-uri 'none';
-                 form-action 'self' https://docs.google.com https://forms.gle;
-                 frame-ancestors 'none';
-                 upgrade-insecure-requests" />
+  <meta name="description" content="Legacy Pulse protège tes proches en leur transmettant l’essentiel uniquement en cas d’absence prolongée." />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Legacy Pulse — Liste de lancement" />
-  <meta property="og:description" content="Protéger tes proches, sans stress. Rejoins la liste pour accéder à la bêta." />
+  <meta property="og:title" content="Legacy Pulse" />
+  <meta property="og:description" content="Protéger tes proches, sans stress." />
   <meta property="og:type" content="website" />
 
-  <!-- Favicon (inline SVG) -->
-  <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%2322c55e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='14' fill='url(%23g)'/%3E%3Ccircle cx='24' cy='24' r='16' fill='none' stroke='white' stroke-width='2.6' opacity='0.95'/%3E%3Cpath d='M10 25h9l2.5-7L24 30l2.5-8 2 3H38' fill='none' stroke='white' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' opacity='0.95'/%3E%3Ccircle cx='38' cy='25' r='2.6' fill='%2322c55e'/%3E%3C/svg%3E" />
-  <meta name="theme-color" content="#0b1020" />
-
-  <style> 
-    /* ===== FIX MOBILE : titre qui ne disparaît plus + header plus propre ===== */
-@media (max-width: 560px){
-
-  .topbar{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .brand{
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  /* Le titre ne sera plus coupé en "Legacy P..." */
-  .brandTxt h1{
-    white-space: normal !important;   /* autorise retour à la ligne */
-    overflow: visible !important;
-    text-overflow: unset !important;
-    line-height: 1.1;
-  }
-
-  /* On évite que le sous-titre prenne trop de place */
-  .brandTxt p{
-    margin-top: 2px;
-    line-height: 1.25;
-  }
-
-  /* Les boutons passent en dessous, centrés */
-  nav{
-    width: 100%;
-    justify-content: flex-start;
-    gap: 8px;
-  }
-
-  .navlink{
-    padding: 9px 10px;
-    font-size: 12.5px;
-  }
-}
-
-
+  <style>
     :root{
-      --bg1:#070a14;
-      --bg2:#081a18;
-      --card: rgba(255,255,255,0.08);
-      --card2: rgba(255,255,255,0.05);
-      --border: rgba(255,255,255,0.12);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.70);
-      --shadow: 0 18px 60px rgba(0,0,0,0.55);
-      --shadow2: 0 10px 30px rgba(0,0,0,0.35);
-      --radius: 18px;
-      --radius2: 22px;
+      --bg1:#0b1020;
+      --bg2:#0b1a18;
+      --text:rgba(255,255,255,0.92);
+      --muted:rgba(255,255,255,0.7);
+      --border:rgba(255,255,255,0.12);
+      --brand1:#7c5cff;
+      --brand2:#22c55e;
+      --radius:18px;
+      --shadow:0 18px 60px rgba(0,0,0,0.45);
     }
 
-    *{ box-sizing: border-box; }
-    html{ scroll-behavior: smooth; }
-    @media (prefers-reduced-motion: reduce){
-      html{ scroll-behavior: auto; }
-      *{ animation: none !important; transition: none !important; }
-    }
-
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--text);
-      min-height: 100vh;
-      padding: 18px;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(1000px 800px at 10% 10%, rgba(124,92,255,0.22), transparent 58%),
-        radial-gradient(900px 700px at 90% 30%, rgba(34,197,94,0.14), transparent 60%),
-        radial-gradient(800px 800px at 40% 120%, rgba(124,92,255,0.10), transparent 55%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow-x: hidden;
+        radial-gradient(900px 700px at 10% 10%, rgba(124,92,255,0.25), transparent 60%),
+        radial-gradient(900px 700px at 90% 90%, rgba(34,197,94,0.18), transparent 60%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100vh;
+      padding:18px;
     }
 
-    /* Fond animé doux */
-    .bgGlow{
-      position: fixed;
-      inset: -40vh -40vw;
-      z-index: -1;
-      background:
-        radial-gradient(closest-side, rgba(124,92,255,0.12), transparent 60%),
-        radial-gradient(closest-side, rgba(34,197,94,0.10), transparent 60%);
-      filter: blur(30px);
-      animation: floatGlow 10s ease-in-out infinite;
-      transform: translate3d(0,0,0);
-      pointer-events: none;
-    }
-    @keyframes floatGlow{
-      0%{ transform: translate(0,0) scale(1); opacity: .85; }
-      50%{ transform: translate(40px,-20px) scale(1.06); opacity: .95; }
-      100%{ transform: translate(0,0) scale(1); opacity: .85; }
-    }
+    .wrap{max-width:980px;margin:0 auto}
 
-    .wrap{ width: 100%; max-width: 1020px; margin: 0 auto; }
-
-    /* Header */
+    /* ===== HEADER ===== */
     .topbar{
-      display:flex; align-items:center; justify-content: space-between;
-      gap: 12px;
-      margin: 10px 0 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      margin-bottom:22px;
+      animation:fadeDown .8s ease both;
     }
 
-    /* ✅ MODIF : gap + pro */
     .brand{
       display:flex;
       align-items:center;
-      gap: 16px;
-      min-width: 0;
+      gap:14px;
     }
 
-    /* ✅ MODIF : LOGO plus gros + mieux “rempli” */
     .logo{
-      width: 74px; height: 74px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(124,92,255,0.98), rgba(34,197,94,0.88));
-      box-shadow: 0 22px 70px rgba(0,0,0,0.55);
-      display: grid;
-      place-items: center;
-      position: relative;
-      overflow: hidden;
-      flex: 0 0 auto;
-    }
-    .logo::after{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 45%);
-      transform: rotate(12deg);
-      pointer-events:none;
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--brand1),var(--brand2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      flex:0 0 auto;
     }
 
-    /* ✅ MODIF : pulse ring plus clean */
-    .logoPulse{
-      position:absolute; inset:0;
-      border-radius: 22px;
-      box-shadow: 0 0 0 0 rgba(124,92,255,0.35);
-      animation: pulseRing 2.1s ease-out infinite;
-      pointer-events:none;
-    }
-    @keyframes pulseRing{
-      0%{ box-shadow: 0 0 0 0 rgba(124,92,255,0.30); opacity: .9; }
-      60%{ box-shadow: 0 0 0 16px rgba(124,92,255,0); opacity: .35; }
-      100%{ box-shadow: 0 0 0 18px rgba(124,92,255,0); opacity: 0; }
+    .logo svg{
+      width:30px;
+      height:30px;
+      stroke:white;
+      stroke-width:2;
+      fill:none;
     }
 
-    .brandTxt{ min-width: 0; }
-
-    /* ✅ MODIF : titre un peu plus grand */
     .brandTxt h1{
       margin:0;
-      font-size: 19px;
-      letter-spacing: 0.2px;
-      font-weight: 980;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size:20px;
+      font-weight:900;
+      line-height:1.05;
     }
+    .brandTxt h1 span{display:block}
     .brandTxt p{
-      margin: 4px 0 0;
-      font-size: 13px;
-      color: var(--muted);
+      margin:4px 0 0;
+      font-size:13px;
+      color:var(--muted);
     }
 
     nav{
-      display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end;
-    }
-    .navlink{
-      font-size: 13px;
-      color: rgba(255,255,255,0.78);
-      text-decoration: none;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-    }
-    .navlink:active{ transform: translateY(1px); }
-    .navlink:hover{ background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); }
-
-    /* Layout */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-    @media (min-width: 940px){
-      .grid{ grid-template-columns: 1.15fr .85fr; align-items: start; gap: 16px; }
-    }
-
-    .card{
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border: 1px solid var(--border);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      transform: translateY(0);
-    }
-
-    /* Scroll reveal */
-    .reveal{
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .reveal.on{
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hero{ padding: 24px 18px 16px; }
-    .title{
-      margin: 0 0 10px;
-      font-size: 30px;
-      line-height: 1.10;
-      font-weight: 980;
-      letter-spacing: 0.15px;
-    }
-    .subtitle{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 15.5px;
-    }
-
-    .trust{
-      margin-top: 14px;
-      display:flex; flex-wrap: wrap; gap: 10px;
-    }
-    .badge{
-      display:inline-flex; gap: 8px; align-items:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.22);
-      font-size: 12.8px;
-      color: rgba(255,255,255,0.82);
-      box-shadow: var(--shadow2);
-    }
-    .dot{
-      width: 9px; height: 9px; border-radius: 999px;
-      background: rgba(34,197,94,0.85);
-      border: 1px solid rgba(34,197,94,0.45);
-    }
-
-    /* Right panel */
-    .panelHd{
-      padding: 16px 18px 12px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(0,0,0,0.10);
-    }
-    .panelHd h2{ margin:0; font-size: 14.8px; font-weight: 980; }
-    .panelHd p{ margin:6px 0 0; font-size: 12.8px; color: var(--muted); line-height: 1.4; }
-
-    .form{ padding: 14px 18px 18px; display:grid; gap: 10px; }
-    label{ font-size: 12.5px; color: var(--muted); }
-    input{
-      width: 100%;
-      padding: 14px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.22);
-      color: var(--text);
-      outline: none;
-      font-size: 15px;
-      transition: box-shadow .15s ease, border-color .15s ease, transform .10s ease;
-    }
-    input::placeholder{ color: rgba(255,255,255,0.38); }
-    input:focus{
-      border-color: rgba(124,92,255,0.55);
-      box-shadow: 0 0 0 3px rgba(124,92,255,0.22);
-      transform: translateY(-1px);
-    }
-
-    .btn{
-      width:100%;
-      padding: 14px 14px;
-      border: none;
-      border-radius: 14px;
-      cursor: pointer;
-      color: white;
-      font-weight: 980;
-      font-size: 15.6px;
-      letter-spacing: 0.2px;
-      background: linear-gradient(135deg, rgba(124,92,255,0.98), rgba(124,92,255,0.62));
-      box-shadow: 0 16px 46px rgba(124,92,255,0.25);
-      transition: transform .12s ease, filter .12s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn:hover{ filter: brightness(1.05); }
-    .btn:active{ transform: translateY(1px); }
-
-    .btn.secondary{
-      background: rgba(255,255,255,0.08);
-      border: 1px solid var(--border);
-      box-shadow: none;
-      color: rgba(255,255,255,0.92);
-    }
-
-    /* Ripple */
-    .ripple{
-      position:absolute;
-      border-radius: 999px;
-      transform: scale(0);
-      animation: ripple .5s ease-out;
-      background: rgba(255,255,255,0.22);
-      pointer-events: none;
-    }
-    @keyframes ripple{
-      to{ transform: scale(3.2); opacity: 0; }
-    }
-
-    .toast{
-      display:none;
-      margin-top: 6px;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(34,197,94,0.40);
-      background: rgba(34,197,94,0.12);
-      color: rgba(255,255,255,0.90);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    .toast.show{ display:block; }
-
-    .thanks{
-      display:none;
-      margin-top: 6px;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(34,197,94,0.40);
-      background: rgba(34,197,94,0.12);
-      color: rgba(255,255,255,0.90);
-      font-size: 13px;
-      line-height: 1.35;
-    }
-    .thanks.show{ display:block; }
-
-    .divider{ height: 1px; background: var(--border); margin: 12px 0 8px; }
-    .mini{ font-size: 12.6px; color: var(--muted); line-height: 1.45; }
-    .row{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content: space-between; }
-    .count{ font-weight: 980; color: rgba(255,255,255,0.92); }
-
-    .danger{
-      border: 1px solid rgba(239,68,68,0.45);
-      background: rgba(239,68,68,0.12);
-      color: rgba(255,255,255,0.90);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-weight: 980;
-      cursor: pointer;
-    }
-
-    /* Sections */
-    .section{ padding: 16px 18px; border-top: 1px solid var(--border); }
-    .section h3{ margin:0 0 10px; font-size: 14.8px; font-weight: 980; }
-
-    .cards{ display:grid; gap: 10px; grid-template-columns: 1fr; }
-    @media (min-width: 640px){ .cards{ grid-template-columns: 1fr 1fr 1fr; } }
-    .miniCard{
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.22);
-      border-radius: 14px;
-      padding: 12px;
-      box-shadow: var(--shadow2);
-      transition: transform .18s ease, border-color .18s ease;
-    }
-    .miniCard:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
-    .miniCard b{ display:block; font-size: 13.6px; }
-    .miniCard span{ display:block; margin-top: 4px; color: var(--muted); font-size: 12.9px; line-height: 1.35; }
-
-    /* FAQ accordion */
-    .faq{ display:grid; gap: 10px; }
-    details{
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.22);
-      border-radius: 14px;
-      padding: 12px;
-      box-shadow: var(--shadow2);
-      transition: border-color .18s ease, transform .18s ease;
-    }
-    details:hover{ border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
-    summary{
-      cursor: pointer;
-      font-weight: 980;
-      font-size: 13.7px;
-      list-style: none;
-      outline: none;
       display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .navlink{
+      text-decoration:none;
+      color:var(--text);
+      font-size:13px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.05);
+      backdrop-filter:blur(6px);
+      transition:.25s;
+    }
+    .navlink:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* ===== HERO ===== */
+    .card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      animation:fadeUp .8s ease both;
+    }
+
+    h2{
+      font-size:30px;
+      margin:0 0 12px;
+    }
+
+    .lead{
+      color:var(--muted);
+      line-height:1.55;
+      margin-bottom:18px;
+    }
+
+    .pill{
+      display:inline-flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    summary::-webkit-details-marker{ display:none; }
-    summary::after{
-      content:"›";
-      opacity: .75;
-      transform: rotate(90deg);
-      transition: transform .18s ease;
-      font-size: 18px;
-    }
-    details[open] summary::after{ transform: rotate(-90deg); }
-    details p{
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 12.9px;
-      line-height: 1.45;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      margin:6px 6px 0 0;
+      font-size:13px;
+      background:rgba(255,255,255,0.04);
+      animation:pop .6s ease both;
     }
 
-    /* Footer */
-    footer{
-      margin-top: 16px;
-      padding: 14px 6px 6px;
-      color: var(--muted);
-      font-size: 12.8px;
-      line-height: 1.45;
-      text-align: center;
-    }
-    footer a{
-      color: rgba(255,255,255,0.78);
-      text-decoration: none;
-      border-bottom: 1px dashed rgba(255,255,255,0.22);
-    }
-    footer a:hover{ color: rgba(255,255,255,0.92); border-bottom-color: rgba(255,255,255,0.38); }
-    footer .sep{ opacity: .6; padding: 0 6px; }
-
-    /* ===== Onboarding Modal (Premium) ===== */
-    .lp-modal{
-      position: fixed; inset: 0;
-      display: none;
-      padding: 16px;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(10px);
-      z-index: 9999;
-    }
-    .lp-modal.open{ display: grid; place-items: center; }
-
-    .lp-dialog{
-      width: min(540px, 100%);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
-      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
-      overflow: hidden;
-      animation: lpIn .18s ease-out;
-    }
-    @keyframes lpIn{
-      from{ transform: translateY(10px); opacity: 0; }
-      to{ transform: translateY(0); opacity: 1; }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background:#22c55e;
     }
 
-    .lp-head{
-      display:flex; gap: 12px; align-items:center;
-      padding: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-    }
-    .lp-mark{
-      width: 54px; height: 54px;
-      border-radius: 18px;
-      display:grid; place-items:center;
-      background: linear-gradient(135deg, rgba(124,92,255,0.95), rgba(34,197,94,0.75));
-      box-shadow: var(--shadow2);
-      position: relative;
-      overflow: hidden;
-    }
-    .lp-mark::after{
-      content:"";
-      position:absolute; inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 45%);
-      transform: rotate(12deg);
-      pointer-events:none;
-    }
-    .lp-kicker{ font-size: 12.5px; color: rgba(255,255,255,0.70); }
-    .lp-title{ font-size: 18px; font-weight: 980; letter-spacing: .2px; }
+    /* ===== SECTIONS ===== */
+    section{margin-top:26px}
 
-    .lp-body{ padding: 16px; }
-    .lp-step{
-      font-size: 14.5px;
-      line-height: 1.55;
-      color: rgba(255,255,255,0.88);
-      background: rgba(0,0,0,0.22);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      padding: 14px;
-      min-height: 120px;
+    .step{
+      padding:16px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      margin-bottom:12px;
+      background:rgba(255,255,255,0.04);
+      transition:.3s;
     }
-    .lp-step b{ color: rgba(255,255,255,0.95); }
+    .step:hover{transform:translateY(-2px)}
 
-    .lp-progress{
-      display:flex; gap: 8px; justify-content:center;
-      margin-top: 12px;
+    /* ===== FAQ ===== */
+    details{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      margin-bottom:10px;
+      background:rgba(255,255,255,0.04);
     }
-    .lp-dot{
-      width: 9px; height: 9px; border-radius: 999px;
-      background: rgba(255,255,255,0.22);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .lp-dot.on{
-      background: rgba(124,92,255,0.85);
-      border-color: rgba(124,92,255,0.45);
-    }
-
-    .lp-actions{
-      display:flex; gap: 10px; justify-content:flex-end; flex-wrap: wrap;
-      padding: 14px 16px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-    }
-    .lp-btn{
-      border-radius: 14px;
-      padding: 12px 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.92);
-      font-weight: 980;
-      cursor: pointer;
-      transition: transform .12s ease, background .12s ease;
-    }
-    .lp-btn:active{ transform: translateY(1px); }
-    .lp-btn.primary{
-      background: linear-gradient(135deg, rgba(124,92,255,0.95), rgba(124,92,255,0.65));
-      border-color: rgba(124,92,255,0.50);
-    }
-    .lp-btn.ghost{ background: transparent; }
-
-    /* ===== Modal Legal/Privacy ===== */
-    #modalOverlay{
-      display:none;
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.65);
-      backdrop-filter: blur(10px);
-      z-index: 99999;
-      padding: 16px;
-    }
-    #modalCard{
-      max-width: 760px;
-      margin: 0 auto;
-      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.06));
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 18px;
-      padding: 16px;
-      color: rgba(255,255,255,0.92);
-      box-shadow: 0 24px 80px rgba(0,0,0,.55);
-      animation: lpIn .18s ease-out;
-    }
-    #modalHead{
-      display:flex; justify-content:space-between; gap:10px; align-items:center;
-      border-bottom:1px solid rgba(255,255,255,.12);
-      padding-bottom:10px;
-    }
-    #modalTitle{ font-weight: 980; }
-    #closeModal{
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.92);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 980;
+    summary{
       cursor:pointer;
+      font-weight:600;
     }
-    #modalBody{ padding-top: 12px; color: rgba(255,255,255,0.78); line-height: 1.55; font-size: 13px; }
+    details p{
+      margin-top:10px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    /* ===== CONTACT ===== */
+    .contact{
+      text-align:center;
+      color:var(--muted);
+    }
+    .contact a{
+      color:white;
+      font-weight:600;
+      text-decoration:none;
+    }
+
+    /* ===== FOOTER ===== */
+    footer{
+      margin-top:30px;
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes fadeDown{
+      from{opacity:0;transform:translateY(-20px)}
+      to{opacity:1;transform:none}
+    }
+    @keyframes pop{
+      from{opacity:0;transform:scale(.95)}
+      to{opacity:1;transform:scale(1)}
+    }
+
+    /* ===== MOBILE ===== */
+    @media(max-width:560px){
+      h2{font-size:26px}
+      .logo{width:52px;height:52px}
+      .brandTxt h1{font-size:18px}
+    }
   </style>
 </head>
 
 <body>
-  <div class="bgGlow" aria-hidden="true"></div>
+<div class="wrap">
 
-  <div class="wrap">
-
-    <div class="topbar reveal">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <span class="logoPulse" aria-hidden="true"></span>
-
-          <!-- ✅ MODIF : SVG plus grand -->
-          <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="18" stroke="rgba(255,255,255,0.95)" stroke-width="2.7"/>
-            <path d="M12 25h7l2.2-6.5L24 30l2.4-7.5L28.4 25H36"
-                  stroke="rgba(255,255,255,0.95)" stroke-width="3.1"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="36" cy="25" r="2.9" fill="rgba(34,197,94,0.98)"/>
-          </svg>
-        </div>
-
-        <div class="brandTxt">
-          <h1>Legacy Pulse</h1>
-          <p>Liste de lancement • Accès bêta prioritaire</p>
-        </div>
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24">
+          <polyline points="2,12 7,12 10,7 14,17 17,12 22,12" />
+        </svg>
       </div>
-
-      <nav aria-label="Navigation">
-        <a class="navlink" href="#how">Comment ça marche</a>
-        <a class="navlink" href="#faq">FAQ</a>
-        <a class="navlink" href="#join">Rejoindre</a>
-      </nav>
+      <div class="brandTxt">
+        <h1><span>Legacy</span><span>Pulse</span></h1>
+        <p>Liste de lancement · Accès bêta prioritaire</p>
+      </div>
     </div>
 
-    <div class="grid">
-      <!-- Left -->
-      <section class="card reveal" aria-label="Présentation">
-        <div class="hero">
-          <h2 class="title">Protéger tes proches, sans stress.</h2>
-          <p class="subtitle">
-            Legacy Pulse permet à tes proches de savoir quoi faire si tu disparais soudainement.
-            Tu prépares l’essentiel maintenant. La transmission ne se fait qu’en cas d’absence prolongée.
-          </p>
+    <nav>
+      <a class="navlink" href="#how">Comment ça marche</a>
+      <a class="navlink" href="#faq">FAQ</a>
+      <a class="navlink" href="#contact">Rejoindre</a>
+    </nav>
+  </header>
 
-          <div class="trust" aria-label="Garanties">
-            <span class="badge"><span class="dot"></span> Privé par conception</span>
-            <span class="badge"><span class="dot"></span> Déclenchement contrôlé</span>
-            <span class="badge"><span class="dot"></span> Effaçable à tout moment</span>
-          </div>
-        </div>
+  <!-- HERO -->
+  <div class="card">
+    <h2>Protéger tes proches,<br>sans stress.</h2>
+    <p class="lead">
+      Legacy Pulse permet à tes proches de savoir quoi faire si tu disparais soudainement.
+      Tu prépares l’essentiel maintenant. La transmission ne se fait qu’en cas d’absence prolongée.
+    </p>
 
-        <div class="section reveal" id="how">
-          <h3>Comment ça marche</h3>
-          <div class="cards">
-            <div class="miniCard">
-              <b>1. Tu écris l’essentiel</b>
-              <span>Messages, consignes, contacts utiles. Simple et rapide.</span>
-            </div>
-            <div class="miniCard">
-              <b>2. Tu choisis tes proches</b>
-              <span>Tu définis qui reçoit quoi, et quand.</span>
-            </div>
-            <div class="miniCard">
-              <b>3. Transmission au bon moment</b>
-              <span>Uniquement si une absence prolongée est confirmée.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="section reveal" id="faq">
-          <h3>FAQ</h3>
-          <div class="faq">
-            <details>
-              <summary>Est-ce que c’est déjà disponible ?</summary>
-              <p>Pas encore. Cette page sert à constituer une liste de lancement pour accéder à la bêta en priorité.</p>
-            </details>
-
-            <details>
-              <summary>Pourquoi Google Forms pour l’instant ?</summary>
-              <p>Pour démarrer vite et proprement : collecte fiable + suivi simple. La plateforme complète remplacera cette étape.</p>
-            </details>
-
-            <details>
-              <summary>Qu’est-ce qui est transmis ?</summary>
-              <p>Des informations essentielles : messages, consignes, contacts utiles. La bêta précisera les formats et les options.</p>
-            </details>
-
-            <details>
-              <summary>Est-ce sécurisé ?</summary>
-              <p>Le site est en HTTPS. Objectif long terme : confidentialité maximale (zéro-lecture serveur). Aujourd’hui, on ne collecte que l’email.</p>
-            </details>
-
-            <details>
-              <summary>Je peux me désinscrire ?</summary>
-              <p>Oui. Il suffit de contacter le support et demander la suppression.</p>
-            </details>
-
-            <details>
-              <summary>Est-ce que vous stockez des mots de passe ou des codes ?</summary>
-              <p>Non. Sur cette page, ne saisis que ton email. N’entre jamais de mots de passe, clés ou codes d’accès ici.</p>
-            </details>
-
-            <details>
-              <summary>Qui a accès aux emails collectés ?</summary>
-              <p>Uniquement l’équipe du projet (pré-lancement) pour informer de l’ouverture de la bêta et des étapes suivantes.</p>
-            </details>
-
-            <details>
-              <summary>À quoi sert exactement la liste de lancement ?</summary>
-              <p>Prioriser l’accès bêta, comprendre la demande, et construire la version complète sur des besoins réels.</p>
-            </details>
-
-            <details>
-              <summary>Y a-t-il de la publicité ou du spam ?</summary>
-              <p>Non. Tu recevras uniquement des messages liés à l’ouverture et au suivi de la bêta.</p>
-            </details>
-
-            <details>
-              <summary>Comment éviter les erreurs (mauvais email, etc.) ?</summary>
-              <p>On valide le format de l’email. Tu peux aussi te réinscrire avec le bon email si tu t’es trompé.</p>
-            </details>
-
-            <details>
-              <summary>Comment la transmission sera déclenchée dans la version complète ?</summary>
-              <p>La version complète intégrera des mécanismes de contrôle (inactivité, confirmations, règles). Les détails seront précisés en bêta.</p>
-            </details>
-
-            <details>
-              <summary>Et si quelqu’un tente d’accéder à mon compte ?</summary>
-              <p>La version complète visera une protection forte (authentification, chiffrement local, contrôles). Cette page ne donne accès à aucun coffre.</p>
-            </details>
-
-            <details>
-              <summary>Est-ce compatible mobile ?</summary>
-              <p>Oui. L’interface est optimisée pour mobile et conçue pour rester lisible et rapide.</p>
-            </details>
-
-            <details>
-              <summary>Où est hébergé le site ?</summary>
-              <p>Le site est hébergé sur GitHub Pages en HTTPS. Le formulaire est hébergé par Google.</p>
-            </details>
-
-            <details>
-              <summary>Pourquoi je dois cliquer “Envoyer” sur le formulaire ?</summary>
-              <p>Pour confirmer ton inscription. Ton email est pré-rempli pour réduire la friction : un seul clic “Envoyer”.</p>
-            </details>
-          </div>
-        </div>
-
-        <div class="section reveal">
-          <h3>Dernière information</h3>
-          <p class="mini">
-            Legacy Pulse est actuellement en phase de pré-lancement.<br><br>
-            Cette page permet de constituer un premier cercle d’utilisateurs impliqués,
-            afin de valider les besoins réels et construire progressivement une plateforme
-            robuste, durable et à la hauteur des enjeux.
-          </p>
-        </div>
-      </section>
-
-      <!-- Right -->
-      <aside class="card reveal" id="join" aria-label="Inscription">
-        <div class="panelHd">
-          <h2>Rejoindre la liste (accès bêta)</h2>
-          <p>Tu seras contacté en priorité quand la bêta ouvre.</p>
-        </div>
-
-        <div class="form">
-          <div class="field">
-            <label for="email">Ton email</label>
-            <input id="email" type="email" placeholder="ex: toi@gmail.com" autocomplete="email" />
-            <div class="mini" style="margin-top:8px;">Ne saisis jamais de mots de passe ou de codes ici. Uniquement ton email.</div>
-          </div>
-
-          <button class="btn" id="btnJoin">Rejoindre la liste</button>
-          <button class="btn secondary" id="btnSent">J’ai envoyé (afficher confirmation)</button>
-
-          <div class="toast" id="toast"></div>
-          <div class="thanks" id="thanks">
-            <b>Parfait.</b> Ton inscription est prise en compte.<br>
-            Tu recevras une invitation prioritaire quand la bêta ouvre.
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="row">
-            <div class="mini">Preuve locale (sur ce téléphone) : <span class="count" id="count">0</span></div>
-            <button class="danger" id="clear">Effacer</button>
-          </div>
-
-          <div class="mini">
-            Astuce : après avoir envoyé sur Google Forms, reviens ici et clique “J’ai envoyé”.
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <footer class="reveal">
-      <div>Contact : <a href="mailto:support@legacypulse.com" id="contactEmail">support@legacypulse.com</a></div>
-      <div style="margin-top:6px;">
-        <a href="#" id="openPrivacy">Confidentialité</a>
-        <span class="sep">•</span>
-        <a href="#" id="openLegal">Mentions légales</a>
-      </div>
-    </footer>
+    <div class="pill"><span class="dot"></span> Privé par conception</div>
+    <div class="pill"><span class="dot"></span> Déclenchement contrôlé</div>
+    <div class="pill"><span class="dot"></span> Effaçable à tout moment</div>
   </div>
 
-  <!-- Onboarding Premium -->
-  <div class="lp-modal" id="lpModal" aria-hidden="true">
-    <div class="lp-dialog" role="dialog" aria-modal="true" aria-labelledby="lpTitle">
-      <div class="lp-head">
-        <div class="lp-mark" aria-hidden="true">
-          <svg width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="18" stroke="rgba(255,255,255,0.94)" stroke-width="2.6"/>
-            <path d="M12 25h7l2.2-6.5L24 30l2.4-7.5L28.4 25H36"
-                  stroke="rgba(255,255,255,0.94)" stroke-width="2.9"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="36" cy="25" r="2.7" fill="rgba(34,197,94,0.95)"/>
-          </svg>
-        </div>
-        <div>
-          <div class="lp-kicker">Bienvenue sur</div>
-          <div class="lp-title" id="lpTitle">Legacy Pulse</div>
-        </div>
-      </div>
+  <!-- HOW -->
+  <section id="how">
+    <h3>Comment ça marche</h3>
+    <div class="step"><strong>1. Tu écris l’essentiel</strong><br>Messages, consignes, contacts utiles.</div>
+    <div class="step"><strong>2. Tu choisis tes proches</strong><br>Qui reçoit quoi, et quand.</div>
+    <div class="step"><strong>3. Transmission au bon moment</strong><br>Uniquement si l’absence est confirmée.</div>
+  </section>
 
-      <div class="lp-body">
-        <div class="lp-step" id="lpStepText"></div>
-        <div class="lp-progress">
-          <div class="lp-dot" id="d0"></div>
-          <div class="lp-dot" id="d1"></div>
-          <div class="lp-dot" id="d2"></div>
-          <div class="lp-dot" id="d3"></div>
-        </div>
-      </div>
+  <!-- FAQ -->
+  <section id="faq">
+    <h3>FAQ</h3>
 
-      <div class="lp-actions">
-        <button class="lp-btn ghost" id="lpBack">Retour</button>
-        <button class="lp-btn ghost" id="lpSkip">Passer</button>
-        <button class="lp-btn primary" id="lpNext">Suivant</button>
-      </div>
-    </div>
-  </div>
+    <details><summary>Legacy Pulse est-il sécurisé ?</summary><p>Oui. Chiffrement, accès contrôlé et HTTPS obligatoire.</p></details>
+    <details><summary>Mes données sont-elles visibles ?</summary><p>Non. Personne n’y a accès sans déclenchement.</p></details>
+    <details><summary>Puis-je modifier ou supprimer ?</summary><p>Oui, à tout moment.</p></details>
+    <details><summary>Qui déclenche la transmission ?</summary><p>Un mécanisme d’absence prolongée vérifiée.</p></details>
+    <details><summary>Est-ce légal ?</summary><p>Oui, tu restes propriétaire de tes données.</p></details>
+    <details><summary>Y a-t-il un abonnement ?</summary><p>Non communiqué pour le moment.</p></details>
+    <details><summary>Est-ce automatique ?</summary><p>Oui, mais toujours sous contrôle.</p></details>
+    <details><summary>Puis-je choisir plusieurs proches ?</summary><p>Oui, avec des règles différentes.</p></details>
+    <details><summary>Fonctionne à l’international ?</summary><p>Oui.</p></details>
+    <details><summary>Quand sort la version finale ?</summary><p>Après la phase bêta.</p></details>
+  </section>
 
-  <!-- Modal Confidentialité / Mentions légales -->
-  <div id="modalOverlay" aria-hidden="true">
-    <div id="modalCard" role="dialog" aria-modal="true">
-      <div id="modalHead">
-        <div id="modalTitle">Titre</div>
-        <button id="closeModal">Fermer</button>
-      </div>
-      <div id="modalBody"></div>
-    </div>
-  </div>
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <p>Contact : <a href="mailto:contact@legacypulse.app">contact@legacypulse.app</a></p>
+  </section>
 
-  <script>
-    // Force HTTPS (anti-erreur)
-    if (location.protocol !== "https:" && location.hostname !== "localhost") {
-      location.replace("https:" + window.location.href.substring(window.location.protocol.length));
-    }
+  <footer>
+    © 2026 Legacy Pulse · HTTPS requis · Tous droits réservés
+  </footer>
 
-    // ===== Google Forms : pré-remplissage email =====
-    const FORM_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSe0i4Dug_AnJUgNDAHgj3Sr7XGOStNcd68arZZirA-XjEpaCg/viewform";
-    const ENTRY_ID  = "entry.1284138298";
-
-    // ===== Local (preuve) =====
-    const KEY  = "legacyPulse_waitlist";
-    const SEEN = "lp_onboard_seen";
-    const SENT = "lp_form_sent";
-
-    function isValidEmail(email){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    function getList(){
-      try { return JSON.parse(localStorage.getItem(KEY) || "[]"); }
-      catch { return []; }
-    }
-    function setList(list){
-      localStorage.setItem(KEY, JSON.stringify(list));
-      const c = document.getElementById("count");
-      if (c) c.textContent = String(list.length);
-    }
-
-    function showToast(msg, ok=true){
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.style.borderColor = ok ? "rgba(34,197,94,0.40)" : "rgba(239,68,68,0.45)";
-      t.style.background = ok ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)";
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 3200);
-    }
-
-    // Ripple
-    function addRipple(e){
-      const btn = e.currentTarget;
-      const rect = btn.getBoundingClientRect();
-      const r = document.createElement("span");
-      r.className = "ripple";
-      const size = Math.max(rect.width, rect.height);
-      r.style.width = r.style.height = size + "px";
-      r.style.left = (e.clientX - rect.left - size/2) + "px";
-      r.style.top  = (e.clientY - rect.top  - size/2) + "px";
-      btn.appendChild(r);
-      setTimeout(()=> r.remove(), 550);
-    }
-
-    // Init local
-    setList(getList());
-    if (localStorage.getItem(SENT) === "1") {
-      document.getElementById("thanks").classList.add("show");
-    }
-
-    // Boutons
-    const btnJoin = document.getElementById("btnJoin");
-    const btnSent = document.getElementById("btnSent");
-
-    btnJoin.addEventListener("click", (e) => {
-      addRipple(e);
-
-      const input = document.getElementById("email");
-      const email = (input.value || "").trim().toLowerCase();
-
-      if (!isValidEmail(email)){
-        showToast("Email invalide. Exemple : toi@gmail.com", false);
-        return;
-      }
-
-      // Compteur clics local
-      const clicks = Number(localStorage.getItem("lp_join_clicks") || "0") + 1;
-      localStorage.setItem("lp_join_clicks", String(clicks));
-
-      // preuve locale
-      const list = getList();
-      if (!list.includes(email)){
-        list.push(email);
-        setList(list);
-      }
-
-      // lien Google Forms prérempli
-      const finalUrl = `${FORM_BASE}?usp=pp_url&${ENTRY_ID}=${encodeURIComponent(email)}`;
-
-      showToast("Formulaire ouvert. Vérifie l’email pré-rempli puis clique Envoyer.", true);
-      window.open(finalUrl, "_blank", "noopener,noreferrer");
-    });
-
-    btnSent.addEventListener("click", (e) => {
-      addRipple(e);
-      localStorage.setItem(SENT, "1");
-      document.getElementById("thanks").classList.add("show");
-      showToast("Confirmation affichée. Merci.", true);
-    });
-
-    document.getElementById("clear").addEventListener("click", () => {
-      if (confirm("Effacer les données locales enregistrées sur ce téléphone ?")){
-        setList([]);
-        localStorage.removeItem(SENT);
-        document.getElementById("thanks").classList.remove("show");
-        showToast("Données locales effacées.", true);
-      }
-    });
-
-    // Onboarding
-    const lpSteps = [
-      `Bienvenue. <b>Legacy Pulse</b> aide tes proches à savoir quoi faire si tu disparais soudainement.`,
-      `Tu prépares <b>l’essentiel</b> : messages, consignes, informations utiles. Simple et rapide.`,
-      `Objectif long terme : <b>confidentialité maximale</b>. Cette page ne collecte que ton email.`,
-      `Rejoins la liste pour accéder à la <b>bêta</b> en priorité.`
-    ];
-
-    let lpIndex = 0;
-
-    function lpOpen(){
-      const modal = document.getElementById("lpModal");
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      lpRender();
-    }
-    function lpClose(){
-      const modal = document.getElementById("lpModal");
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-      localStorage.setItem(SEEN, "1");
-    }
-    function lpRender(){
-      document.getElementById("lpStepText").innerHTML = lpSteps[lpIndex];
-      for (let i=0; i<4; i++){
-        document.getElementById("d"+i).classList.toggle("on", i === lpIndex);
-      }
-      const back = document.getElementById("lpBack");
-      back.disabled = (lpIndex === 0);
-      back.style.opacity = (lpIndex === 0) ? "0.5" : "1";
-      document.getElementById("lpNext").textContent =
-        (lpIndex === lpSteps.length - 1) ? "Commencer" : "Suivant";
-    }
-
-    document.getElementById("lpBack").addEventListener("click", () => {
-      if (lpIndex > 0){ lpIndex--; lpRender(); }
-    });
-    document.getElementById("lpNext").addEventListener("click", () => {
-      if (lpIndex < lpSteps.length - 1){
-        lpIndex++; lpRender();
-      } else {
-        lpClose();
-        const email = document.getElementById("email");
-        if (email) email.focus();
-      }
-    });
-    document.getElementById("lpSkip").addEventListener("click", () => lpClose());
-    document.getElementById("lpModal").addEventListener("click", (e) => {
-      if (e.target.id === "lpModal") lpClose();
-    });
-
-    if (localStorage.getItem(SEEN) !== "1"){
-      window.addEventListener("load", () => lpOpen());
-    }
-
-    // Legal / Privacy modal
-    const overlay = document.getElementById("modalOverlay");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalBody = document.getElementById("modalBody");
-
-    function openModal(title, html){
-      modalTitle.textContent = title;
-      modalBody.innerHTML = html;
-      overlay.style.display = "block";
-      overlay.setAttribute("aria-hidden", "false");
-    }
-    function closeModal(){
-      overlay.style.display = "none";
-      overlay.setAttribute("aria-hidden", "true");
-    }
-
-    document.getElementById("closeModal").addEventListener("click", closeModal);
-    overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
-
-    document.getElementById("openPrivacy").addEventListener("click", (e) => {
-      e.preventDefault();
-      openModal("Confidentialité", `
-        <p><b>Pré-lancement.</b> Nous collectons uniquement votre email pour vous contacter lors de l’ouverture de la bêta.</p>
-        <p><b>Ne saisissez jamais</b> de mots de passe, codes d’accès, clés privées ou données sensibles sur cette page.</p>
-        <p>Suppression : demande possible via <b>support@legacypulse.com</b>.</p>
-      `);
-    });
-
-    document.getElementById("openLegal").addEventListener("click", (e) => {
-      e.preventDefault();
-      openModal("Mentions légales", `
-        <p><b>Éditeur :</b> Legacy Pulse (pré-lancement).</p>
-        <p><b>Contact :</b> support@legacypulse.com</p>
-        <p><b>Hébergement :</b> GitHub Pages (HTTPS).</p>
-        <p><b>Collecte :</b> email via Google Forms (pré-rempli).</p>
-      `);
-    });
-
-    // Scroll reveal
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add("on");
-      });
-    }, { threshold: 0.12 });
-    els.forEach(el => io.observe(el));
-  </script>
+</div>
 </body>
-  </html>
+</html>
