@@ -764,50 +764,59 @@
     }, { threshold: 0.12 });
     els.forEach(el => io.observe(el));
   </script>
-  <script>
-/* ===== Legacy Pulse → Supabase (WAITLIST) =====
-   - stocke seulement l'email dans la table "waitlist"
-   - sécurisé par RLS + policy INSERT
-*/
+      <script>
+/* ===== Legacy Pulse → Supabase (WAITLIST) ===== */
 
-const SUPABASE_URL = "https://iezyypeeiwjytruobgca.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imllenl5cGVlaXdqeXRydW9iZ2NhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MDA0NTgsImV4cCI6MjA4Mzk3NjQ1OH0.aNfSZS9FBzNp7aJw8cnT8HEFzkErNUqKmaccEl9S1hg";
-
-/* IMPORTANT : ne jamais mettre service_role ici */
-
-async function lpWaitlistInsert(email){
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
-    method: "POST",
-    headers: {
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-      "Content-Type": "application/json",
-      "Prefer": "return=minimal"
-    },
-    body: JSON.stringify({ email })
-  });
-
-  // 201/204 = OK ; 409 = déjà inscrit
-  if (res.status === 201 || res.status === 204) return { ok: true, status: res.status };
-  if (res.status === 409) return { ok: true, status: 409, already: true };
-
-  let errText = "";
-  try { errText = await res.text(); } catch {}
-  return { ok: false, status: res.status, error: errText };
-}
+const SUPABASE_URL = "VOTRE_SUPABASE_URL_ICI"; // ex: https://xxxxx.supabase.co
+const SUPABASE_ANON_KEY = "VOTRE_ANON_PUBLIC_KEY_ICI"; // anon / publishable (PAS secret)
 
 function isValidEmail(email){
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-/* Branche le bouton "Rejoindre la liste" si présent */
+function looksLikeSupabaseUrl(url){
+  return /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test((url||"").trim());
+}
+
+async function lpWaitlistInsert(email){
+  // Timeout 10s
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), 10000);
+
+  try{
+    const url = `${SUPABASE_URL.replace(/\/$/,"")}/rest/v1/waitlist`;
+    const res = await fetch(url, {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({ email })
+    });
+
+    clearTimeout(t);
+
+    if (res.status === 201 || res.status === 204) return { ok: true, status: res.status };
+    if (res.status === 409) return { ok: true, status: 409, already: true };
+
+    const txt = await res.text().catch(()=> "");
+    return { ok: false, status: res.status, error: txt };
+
+  } catch (e){
+    clearTimeout(t);
+    return { ok: false, status: 0, error: String(e && e.message ? e.message : e) };
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btnJoin");
   const input = document.getElementById("email");
   const toast = document.getElementById("toast");
-  const thanks = document.getElementById("thanks");
 
-  if (!btn || !input) return; // si ton HTML n'a pas ces ids, on ne casse rien
+  if (!btn || !input) return;
 
   const show = (msg, ok=true) => {
     if (!toast) return alert(msg);
@@ -815,35 +824,45 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.style.borderColor = ok ? "rgba(34,197,94,0.40)" : "rgba(239,68,68,0.45)";
     toast.style.background = ok ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)";
     toast.classList.add("show");
-    setTimeout(()=>toast.classList.remove("show"), 3500);
+    setTimeout(()=>toast.classList.remove("show"), 4000);
   };
 
   btn.addEventListener("click", async () => {
     const email = (input.value || "").trim().toLowerCase();
+
     if (!isValidEmail(email)) return show("Email invalide. Exemple : toi@gmail.com", false);
 
+    if (!looksLikeSupabaseUrl(SUPABASE_URL)){
+      return show("Supabase URL invalide. Elle doit ressembler à https://xxxxx.supabase.co", false);
+    }
+    if (!SUPABASE_ANON_KEY || SUPABASE_ANON_KEY.length < 30){
+      return show("Clé anon/publishable invalide (ne mets pas la secret key).", false);
+    }
+
     btn.disabled = true;
-    btn.textContent = "Envoi…";
+    const oldText = btn.textContent;
+    btn.textContent = "Envoi...";
 
     const r = await lpWaitlistInsert(email);
 
     btn.disabled = false;
-    btn.textContent = "Rejoindre la liste";
+    btn.textContent = oldText;
 
     if (r.ok){
-      if (r.already) show("Déjà inscrit. Merci.", true);
-      else show("Inscription enregistrée. Merci.", true);
-
-      if (thanks) thanks.classList.add("show");
+      show(r.already ? "Déjà inscrit. Merci." : "Inscription enregistrée. Merci.", true);
       input.value = "";
       return;
     }
 
-    // Message d'erreur lisible
-    show("Erreur d’envoi. Vérifie tes clés Supabase (URL + anon).", false);
-    console.log("Supabase error:", r.status, r.error);
+    // Message précis
+    if (r.error.includes("AbortError")){
+      return show("Timeout (10s). Vérifie la connexion ou la config Supabase.", false);
+    }
+
+    show("Échec d’envoi. On va corriger : URL/clé/CORS. (Détail en console)", false);
+    console.log("Supabase insert error:", r.status, r.error);
   });
 });
-    </script>
+      </script>
 </body>
 </html>
