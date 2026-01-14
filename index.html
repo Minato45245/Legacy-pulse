@@ -764,5 +764,86 @@
     }, { threshold: 0.12 });
     els.forEach(el => io.observe(el));
   </script>
+  <script>
+/* ===== Legacy Pulse → Supabase (WAITLIST) =====
+   - stocke seulement l'email dans la table "waitlist"
+   - sécurisé par RLS + policy INSERT
+*/
+
+const SUPABASE_URL = "https://iezyypeeiwjytruobgca.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imllenl5cGVlaXdqeXRydW9iZ2NhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0MDA0NTgsImV4cCI6MjA4Mzk3NjQ1OH0.aNfSZS9FBzNp7aJw8cnT8HEFzkErNUqKmaccEl9S1hg";
+
+/* IMPORTANT : ne jamais mettre service_role ici */
+
+async function lpWaitlistInsert(email){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "Content-Type": "application/json",
+      "Prefer": "return=minimal"
+    },
+    body: JSON.stringify({ email })
+  });
+
+  // 201/204 = OK ; 409 = déjà inscrit
+  if (res.status === 201 || res.status === 204) return { ok: true, status: res.status };
+  if (res.status === 409) return { ok: true, status: 409, already: true };
+
+  let errText = "";
+  try { errText = await res.text(); } catch {}
+  return { ok: false, status: res.status, error: errText };
+}
+
+function isValidEmail(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/* Branche le bouton "Rejoindre la liste" si présent */
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("btnJoin");
+  const input = document.getElementById("email");
+  const toast = document.getElementById("toast");
+  const thanks = document.getElementById("thanks");
+
+  if (!btn || !input) return; // si ton HTML n'a pas ces ids, on ne casse rien
+
+  const show = (msg, ok=true) => {
+    if (!toast) return alert(msg);
+    toast.textContent = msg;
+    toast.style.borderColor = ok ? "rgba(34,197,94,0.40)" : "rgba(239,68,68,0.45)";
+    toast.style.background = ok ? "rgba(34,197,94,0.12)" : "rgba(239,68,68,0.12)";
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"), 3500);
+  };
+
+  btn.addEventListener("click", async () => {
+    const email = (input.value || "").trim().toLowerCase();
+    if (!isValidEmail(email)) return show("Email invalide. Exemple : toi@gmail.com", false);
+
+    btn.disabled = true;
+    btn.textContent = "Envoi…";
+
+    const r = await lpWaitlistInsert(email);
+
+    btn.disabled = false;
+    btn.textContent = "Rejoindre la liste";
+
+    if (r.ok){
+      if (r.already) show("Déjà inscrit. Merci.", true);
+      else show("Inscription enregistrée. Merci.", true);
+
+      if (thanks) thanks.classList.add("show");
+      input.value = "";
+      return;
+    }
+
+    // Message d'erreur lisible
+    show("Erreur d’envoi. Vérifie tes clés Supabase (URL + anon).", false);
+    console.log("Supabase error:", r.status, r.error);
+  });
+});
+    </script>
 </body>
 </html>
